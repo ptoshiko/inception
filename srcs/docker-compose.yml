@@ -1,0 +1,76 @@
+version: ‘3’
+
+
+services:
+  nginx:
+    container_name: nginx                    
+    volumes:
+      # - wordpress:/var/www/wordpress  
+      - wordpress://var/www/html       # Mount the WordPress volume.
+    networks:
+      - inception                            
+    depends_on:                             # New line, indicating not to start NGINX until WordPress has started.
+      - wordpress
+    build:
+      context: requirements/nginx          
+      dockerfile: Dockerfile                 
+    env_file: .env                          
+    ports:
+      - "443:443"                            # Specify the port to be exposed to the local machine.
+    restart: always                 
+
+  mariadb:
+    container_name: mariadb           
+    networks:
+      - inception   
+    # build: ./requirements/mariadb                   
+    build:
+      context: requirements/mariadb    
+      dockerfile: Dockerfile            
+    env_file: .env                    
+    volumes: 
+      - mariadb:/var/lib/mysql
+    restart: always
+    # ports:
+    #   - "3306:3306"           
+    expose:                           
+      - "3306"
+
+
+  wordpress:
+    container_name: wordpress
+    env_file: .env
+    volumes:
+      - wordpress:/var/www/html         # Mount the WordPress volume.
+    networks:
+      - inception
+    build:
+      context: requirements/wordpress 
+      dockerfile: Dockerfile
+    depends_on:                             # WordPress will start only after MariaDB (otherwise, it won't be able to configure the database).
+      - mariadb
+    # restart: always
+    restart: on-failure
+    # expose:
+    #   - "9000"
+
+
+volumes:
+  wordpress:
+    driver: local                               # Here we store the volume locally.
+    driver_opts:
+      type: 'none'                             # No specific type.
+      o: 'bind'
+      device: '/Users/angelinamazurova/data/wordpress'    # Where to store the folder on your local computer.
+
+  mariadb:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'                                 # Bind Mounts are volumes that are mounted on a host path, and they can be modified by other processes outside of Docker.
+      device: '/Users/angelinamazurova/data/mariadb'       # Where to store the folder on your local computer.
+
+
+networks:
+  inception:
+    driver: bridge
