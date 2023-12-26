@@ -27,14 +27,21 @@ services:
     build:
       context: requirements/mariadb    
       dockerfile: Dockerfile            
-    env_file: .env                    
+    env_file: .env
+    healthcheck:
+      test: [ "CMD", "ls"]
+      start_period: 20s
+      start_interval: 10s
+      interval: 20s
+      timeout: 5s
+      retries: 3                  
     volumes: 
       - mariadb:/var/lib/mysql
     restart: always
-    # ports:
-    #   - "3306:3306"           
-    expose:                           
-      - "3306"
+    ports:
+      - "3306:3306"          
+    # expose:                           
+    #   - "3306"
 
 
   wordpress:
@@ -48,11 +55,13 @@ services:
       context: requirements/wordpress 
       dockerfile: Dockerfile
     depends_on:                             # WordPress will start only after MariaDB (otherwise, it won't be able to configure the database).
-      - mariadb
-    # restart: always
+      mariadb:
+        condition: service_healthy
+        restart: true
+
     restart: on-failure
-    # expose:
-    #   - "9000"
+    expose:
+      - "9000"
 
 
 volumes:
@@ -61,14 +70,14 @@ volumes:
     driver_opts:
       type: 'none'                             # No specific type.
       o: 'bind'
-      device: '/Users/angelinamazurova/data/wordpress'    # Where to store the folder on your local computer.
+      device: '$HOME/data/wordpress'    # Where to store the folder on your local computer.
 
   mariadb:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'                                 # Bind Mounts are volumes that are mounted on a host path, and they can be modified by other processes outside of Docker.
-      device: '/Users/angelinamazurova/data/mariadb'       # Where to store the folder on your local computer.
+      device: '$HOME/data/mariadb'       # Where to store the folder on your local computer.
 
 
 networks:

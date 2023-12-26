@@ -1,16 +1,14 @@
 FROM debian:11
 
-RUN apt update
-RUN apt upgrade
-RUN apt install nginx -y
+RUN apt update && \
+    apt upgrade -y && \
+    apt install -y \
+        nginx \
+        vim \
+        curl \
+        openssl
 
-RUN apt install vim -y    
-RUN apt install curl -y
-
-# for TLS 
-# ok
 RUN mkdir -p /etc/nginx/ssl
-RUN apt install openssl -y
 
 RUN  openssl req -x509 -nodes\
 		-out /etc/nginx/ssl/inception.crt\
