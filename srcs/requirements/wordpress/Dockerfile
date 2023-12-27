@@ -13,6 +13,7 @@ RUN apt-get update && apt-get -y install \
 	php-mbstring \
 	redis \
 	php-redis \
+	net-tools \ 
 	&& rm -rf /var/lib/apt/lists/*
 
 

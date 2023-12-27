@@ -25,14 +25,14 @@ RUN mkdir -p /run/nginx
 EXPOSE	443
 
 
-## is neccessary ??
+# is neccessary ??
 # RUN chmod -R 755 /var/www/html 
 # RUN chown -R www-data:www-data /var/www/html 
 
 # # Adjust permissions for SSL files
 # RUN chown -R root:root /etc/nginx/ssl
 # RUN chmod 600 /etc/nginx/ssl/inception.crt /etc/nginx/ssl/inception.key
-## 
+# # 
 
 CMD ["nginx", "-g", "daemon off;"]
 
