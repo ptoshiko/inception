@@ -20,6 +20,9 @@ RUN chmod +x /var/local/bin/setup.sh
 EXPOSE 3306
 
 # Set CMD to make MariaDB listen on all IPv4 addresses
-# CMD ["", "--bind-address=0.0.0.0"]
+
+# CMD ["sh", "/var/local/bin/setup.sh", "--bind-address=127.0.0.1", "port=3306"]
+
 CMD ["sh", "/var/local/bin/setup.sh", "--bind-address=127.0.0.1", "port=3306"]
+
 # CMD [""]

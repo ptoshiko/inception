@@ -41,5 +41,3 @@ RUN chmod +x /usr/local/bin/start.sh
 
 #Launch PHP FPM in foreground and ignore deamonize from conf file (-F)
 CMD ["sh", "/usr/local/bin/start.sh"]
-
-

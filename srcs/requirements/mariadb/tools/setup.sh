@@ -2,6 +2,10 @@
 
 sleep 10
 
+echo ${SQL_DATABASE} ${SQL_USER} ${SQL_PASSWORD} ${SQL_DATABASE} ${SQL_USER} ${SQL_PASSWORD} ${SQL_ROOT_PASSWORD}
+
+echo /log.mariadb.logs
+
 mysql -u root <<EOF
 USE mysql;
 CREATE DATABASE IF NOT EXISTS \`${SQL_DATABASE}\`;

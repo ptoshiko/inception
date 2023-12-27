@@ -3,7 +3,8 @@ version: ‘3’
 
 services:
   nginx:
-    container_name: nginx                    
+    # container_name: nginx
+    hostname: nginx                
     volumes:
       # - wordpress:/var/www/wordpress  
       - wordpress://var/www/html       # Mount the WordPress volume.
@@ -16,11 +17,12 @@ services:
       dockerfile: Dockerfile                 
     env_file: .env                          
     ports:
-      - "443:443"                            # Specify the port to be exposed to the local machine.
+      - "8443:8443"                            # Specify the port to be exposed to the local machine.
     restart: always                 
 
   mariadb:
-    container_name: mariadb           
+    # container_name: mariadb       
+    hostname: mariadb    
     networks:
       - inception   
     # build: ./requirements/mariadb                   
@@ -45,7 +47,8 @@ services:
 
 
   wordpress:
-    container_name: wordpress
+    # container_name: wordpress
+    hostname: wordpress
     env_file: .env
     volumes:
       - wordpress:/var/www/html         # Mount the WordPress volume.
