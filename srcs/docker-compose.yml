@@ -1,13 +1,13 @@
-version: ‘3’
+version: ‘3.3’
 
 
 services:
   nginx:
-    # container_name: nginx
-    hostname: nginx                
+    container_name: nginx
+    # hostname: nginx                
     volumes:
       # - wordpress:/var/www/wordpress  
-      - wordpress://var/www/html       # Mount the WordPress volume.
+      - wordpress:/var/www/html       # Mount the WordPress volume.
     networks:
       - inception                            
     depends_on:                             # New line, indicating not to start NGINX until WordPress has started.
@@ -17,12 +17,12 @@ services:
       dockerfile: Dockerfile                 
     env_file: .env                          
     ports:
-      - "8443:8443"                            # Specify the port to be exposed to the local machine.
+      - "443:443"                            # Specify the port to be exposed to the local machine.
     restart: always                 
 
   mariadb:
-    # container_name: mariadb       
-    hostname: mariadb    
+    container_name: mariadb       
+    # hostname: mariadb    
     networks:
       - inception   
     # build: ./requirements/mariadb                   
@@ -47,8 +47,8 @@ services:
 
 
   wordpress:
-    # container_name: wordpress
-    hostname: wordpress
+    container_name: wordpress
+    # hostname: wordpress
     env_file: .env
     volumes:
       - wordpress:/var/www/html         # Mount the WordPress volume.
@@ -61,11 +61,11 @@ services:
       mariadb:
         condition: service_healthy
         restart: true
-
     restart: on-failure
-    expose:
-      - "9000"
-
+    # expose:
+    #   - "9000"
+    ports:
+      - "9000:9000"
 
 volumes:
   wordpress:
@@ -81,7 +81,6 @@ volumes:
       type: 'none'
       o: 'bind'                                 # Bind Mounts are volumes that are mounted on a host path, and they can be modified by other processes outside of Docker.
       device: '$HOME/data/mariadb'       # Where to store the folder on your local computer.
-
 
 networks:
   inception:

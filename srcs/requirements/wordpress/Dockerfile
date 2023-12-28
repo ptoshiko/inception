@@ -26,15 +26,22 @@ COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/
 RUN mkdir /run/php
 
 
-COPY conf/config.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/config.sh
-ENTRYPOINT ["/usr/local/bin/config.sh"]
+# COPY conf/config.sh /usr/local/bin/
+# RUN	chmod +x /usr/local/bin/config.sh
+# ENTRYPOINT ["/usr/local/bin/config.sh"]
 
-#We go the html directory
 WORKDIR /var/www/html/
+
+RUN wget http://wordpress.org/latest.tar.gz && \
+			tar xfz latest.tar.gz && \
+			mv wordpress/* . && \
+			rm -rf latest.tar.gz && \
+			rm -rf wordpress 
 
 #We expose the 9000 port
 EXPOSE 9000
+
+COPY conf/wp-config.php /var/www/html/wp-config-sample.php
 
 COPY conf/start.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/start.sh

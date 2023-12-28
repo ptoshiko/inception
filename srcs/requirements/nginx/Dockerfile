@@ -22,7 +22,7 @@ COPY conf/nginx.conf /etc/nginx/nginx.conf
 RUN mkdir -p /run/nginx
 
 #the only port allowed
-EXPOSE	8443
+EXPOSE	443
 
 
 # is neccessary ??
