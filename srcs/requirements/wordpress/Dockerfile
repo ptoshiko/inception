@@ -11,8 +11,6 @@ RUN apt-get update && apt-get -y install \
 	php-pdo \
 	php-gd php-cli \
 	php-mbstring \
-	redis \
-	php-redis \
 	net-tools \ 
 	&& rm -rf /var/lib/apt/lists/*
 
@@ -38,10 +36,19 @@ RUN wget http://wordpress.org/latest.tar.gz && \
 			rm -rf latest.tar.gz && \
 			rm -rf wordpress 
 
-#We expose the 9000 port
 EXPOSE 9000
 
+# RUN mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+
+# RUN sed -i "s/username_here/$SQL_USER/" /var/www/html/wp-config.php
+# RUN sed -i 's/username_here/$SQL_USER/' /var/www/html/wp-config.php
+# RUN sed -i 's/username_here/$SQL_USER/' /var/www/html/wp-config.php
+# RUN sed -i 's/username_here/$SQL_USER/' /var/www/html/wp-config.php
+
+# !!! to set set connection with db by config 
 COPY conf/wp-config.php /var/www/html/wp-config-sample.php
+RUN mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+
 
 COPY conf/start.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/start.sh

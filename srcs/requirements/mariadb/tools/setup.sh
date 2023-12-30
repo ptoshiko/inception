@@ -2,66 +2,75 @@
 
 sleep 10
 
-echo ${SQL_DATABASE} ${SQL_USER} ${SQL_PASSWORD} ${SQL_DATABASE} ${SQL_USER} ${SQL_PASSWORD} ${SQL_ROOT_PASSWORD}
+echo "i am here"
 
-mysql -u root <<EOF
-USE mysql;
+service mariadb start
+
+# exec mysqld
+
+# mysql -u root -p"${SQL_ROOT_PASSWORD}"<<EOF
+# USE mysql;
+# CREATE DATABASE IF NOT EXISTS \`${SQL_DATABASE}\`;
+# CREATE USER IF NOT EXISTS \`${SQL_USER}\`@'${SQL_HOSTNAME}' IDENTIFIED BY '${SQL_PASSWORD}';
+# GRANT ALL PRIVILEGES ON \`${SQL_DATABASE}\`.* TO \`${SQL_USER}\`@'${SQL_HOSTNAME}';
+# ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';
+# FLUSH PRIVILEGES;
+# EOF
+
+
+mysql -u root -p"${SQL_ROOT_PASSWORD}"<<EOF
 CREATE DATABASE IF NOT EXISTS \`${SQL_DATABASE}\`;
-CREATE USER IF NOT EXISTS \`${SQL_USER}\`@'localhost' IDENTIFIED BY '${SQL_PASSWORD}';
-GRANT ALL PRIVILEGES ON \`${SQL_DATABASE}\`.* TO \`${SQL_USER}\`@'%' IDENTIFIED BY '${SQL_PASSWORD}';
-ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';
+CREATE USER IF NOT EXISTS \`${SQL_USER}\`@'%' IDENTIFIED BY '${SQL_PASSWORD}';
+GRANT ALL PRIVILEGES ON \`${SQL_DATABASE}\`.* TO \`${SQL_USER}\`@'%';
+FLUSH PRIVILEGES;  
+GRANT ALL PRIVILEGES ON \`${SQL_DATABASE}\`.* TO 'root'@'%' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';
 FLUSH PRIVILEGES;
 EOF
 
-# Stop the MySQL server
-mysqladmin -u root -p"${SQL_ROOT_PASSWORD}" shutdown
+echo "now i am here"
 
-# Wait for the MySQL server to stop (adjust the sleep time if needed)
+service mariadb stop
+
+# # Stop the MySQL server
+# mysqladmin -u root -p"${SQL_ROOT_PASSWORD}" shutdown
+
+# # # Wait for the MySQL server to stop (adjust the sleep time if needed)
 sleep 5
 
-# Start the MySQL server for normal operation
+# # Start the MySQL server for normal operation
+# /usr/bin/mysqld_safe
 exec mysqld
 
 
 
-# mysql_upgrade
 
-# /etc/init.d/mysql start
 
-# #Check if the database exists
 
-# if [ -d "/var/lib/mysql/$MYSQL_DATABASE" ]
-# then 
+# sleep 10
 
-# 	echo "Database already exists"
-# else
+# mysql -u root<<EOF
+# USE mysql;
+# FLUSH PRIVILEGES;
 
-# # Set root option so that connexion without root password is not possible
+# DELETE FROM	mysql.user WHERE User='';
+# DROP DATABASE test;
+# DELETE FROM mysql.db WHERE Db='test';
+# DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
 
-# mysql_secure_installation << _EOF_
+# ALTER USER 'root'@'localhost' IDENTIFIED BY '$SQL_ROOT_PASSWORD';
 
-# Y
-# root4life
-# root4life
-# Y
-# n
-# Y
-# Y
-# _EOF_
+# CREATE DATABASE $SQL_DATABASE CHARACTER SET utf8 COLLATE utf8_general_ci;
+# CREATE USER '$SQL_USER'@'%' IDENTIFIED by '$SQL_PASSWORD';
+# GRANT ALL PRIVILEGES ON $SQL_DATABASE.* TO '$SQL_USER'@'%';
 
-# #Add a root user on 127.0.0.1 to allow remote connexion 
-# #Flush privileges allow to your sql tables to be updated automatically when you modify it
-# #mysql -uroot launch mysql command line client
-# echo "GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
+# FLUSH PRIVILEGES;
+# EOF
 
-# #Create database and user in the database for wordpress
-# echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;" | mysql -u root
+# # Stop the MySQL server
+# # mysqladmin -u root -p"${SQL_ROOT_PASSWORD}" shutdown
 
-# #Import database in the mysql command line
-# mysql -uroot -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE < /usr/local/bin/wordpress.sql
+# # Wait for the MySQL server to stop (adjust the sleep time if needed)
+# sleep 5
 
-# fi
-
-# /etc/init.d/mysql stop
-
-# exec "$@"
+# # Start the MySQL server for normal operation
+# exec mysqld

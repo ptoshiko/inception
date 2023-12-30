@@ -11,7 +11,11 @@ RUN mkdir -p /var/run/mysqld \
         && chmod 777 /var/run/mysqld
 
 COPY ./tools/setup.sh /var/local/bin/setup.sh
+
 COPY ./conf/mysqld.conf /etc/mysql/my.cnf
+
+# COPY conf/50-server.cnf	/etc/mysql/mariadb.conf.d/50-server.cnf
+
 # Give execute permissions to your script
 RUN chmod +x /var/local/bin/setup.sh
 
@@ -20,4 +24,6 @@ RUN chmod +x /var/local/bin/setup.sh
 
 EXPOSE 3306
 
-CMD ["sh", "/var/local/bin/setup.sh"]
+CMD bash -c "/var/local/bin/setup.sh"
+
+# CMD ["sh", "/var/local/bin/setup.sh"]
