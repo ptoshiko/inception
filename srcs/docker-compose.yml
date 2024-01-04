@@ -3,10 +3,8 @@ version: ‘3.3’
 
 services:
   nginx:
-    container_name: nginx
-    # hostname: nginx                
+    container_name: nginx               
     volumes:
-      # - wordpress:/var/www/wordpress  
       - wordpress:/var/www/html       # Mount the WordPress volume.
     networks:
       - inception                            
@@ -21,11 +19,9 @@ services:
     restart: always                 
 
   mariadb:
-    container_name: mariadb       
-    # hostname: mariadb    
+    container_name: mariadb          
     networks:
-      - inception   
-    # build: ./requirements/mariadb                   
+      - inception                     
     build:
       context: requirements/mariadb    
       dockerfile: Dockerfile            
@@ -42,13 +38,10 @@ services:
     restart: always
     ports:
       - "3306:3306"          
-    # expose:                           
-    #   - "3306"
 
 
   wordpress:
     container_name: wordpress
-    # hostname: wordpress
     env_file: .env
     volumes:
       - wordpress:/var/www/html         # Mount the WordPress volume.
@@ -62,8 +55,6 @@ services:
         condition: service_healthy
         restart: true
     restart: on-failure
-    # expose:
-    #   - "9000"
     ports:
       - "9000:9000"
 
@@ -71,7 +62,7 @@ volumes:
   wordpress:
     driver: local                               # Here we store the volume locally.
     driver_opts:
-      type: 'none'                             # No specific type.
+      type: 'none'                          
       o: 'bind'
       device: '$HOME/data/wordpress'    # Where to store the folder on your local computer.
 
@@ -79,7 +70,7 @@ volumes:
     driver: local
     driver_opts:
       type: 'none'
-      o: 'bind'                                 # Bind Mounts are volumes that are mounted on a host path, and they can be modified by other processes outside of Docker.
+      o: 'bind'                                
       device: '$HOME/data/mariadb'       # Where to store the folder on your local computer.
 
 networks:

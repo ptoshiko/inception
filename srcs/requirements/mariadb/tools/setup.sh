@@ -6,24 +6,10 @@ echo "i am here"
 
 service mariadb start
 
-# exec mysqld
-
-# mysql -u root -p"${SQL_ROOT_PASSWORD}"<<EOF
-# USE mysql;
-# CREATE DATABASE IF NOT EXISTS \`${SQL_DATABASE}\`;
-# CREATE USER IF NOT EXISTS \`${SQL_USER}\`@'${SQL_HOSTNAME}' IDENTIFIED BY '${SQL_PASSWORD}';
-# GRANT ALL PRIVILEGES ON \`${SQL_DATABASE}\`.* TO \`${SQL_USER}\`@'${SQL_HOSTNAME}';
-# ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';
-# FLUSH PRIVILEGES;
-# EOF
-
-
-mysql -u root -p"${SQL_ROOT_PASSWORD}"<<EOF
+mysql -u root <<EOF
 CREATE DATABASE IF NOT EXISTS \`${SQL_DATABASE}\`;
 CREATE USER IF NOT EXISTS \`${SQL_USER}\`@'%' IDENTIFIED BY '${SQL_PASSWORD}';
 GRANT ALL PRIVILEGES ON \`${SQL_DATABASE}\`.* TO \`${SQL_USER}\`@'%';
-FLUSH PRIVILEGES;  
-GRANT ALL PRIVILEGES ON \`${SQL_DATABASE}\`.* TO 'root'@'%' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';
 FLUSH PRIVILEGES;
 EOF
 
@@ -31,14 +17,10 @@ echo "now i am here"
 
 service mariadb stop
 
-# # Stop the MySQL server
-# mysqladmin -u root -p"${SQL_ROOT_PASSWORD}" shutdown
-
-# # # Wait for the MySQL server to stop (adjust the sleep time if needed)
+# Wait for the MySQL server to stop (adjust the sleep time if needed)
 sleep 5
 
 # # Start the MySQL server for normal operation
-# /usr/bin/mysqld_safe
 exec mysqld
 
 

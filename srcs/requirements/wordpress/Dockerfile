@@ -24,7 +24,7 @@ COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/
 RUN mkdir /run/php
 
 
-# COPY conf/config.sh /usr/local/bin/
+# COPY conf/config. /usr/local/bin/
 # RUN	chmod +x /usr/local/bin/config.sh
 # ENTRYPOINT ["/usr/local/bin/config.sh"]
 
@@ -38,17 +38,7 @@ RUN wget http://wordpress.org/latest.tar.gz && \
 
 EXPOSE 9000
 
-# RUN mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
-
-# RUN sed -i "s/username_here/$SQL_USER/" /var/www/html/wp-config.php
-# RUN sed -i 's/username_here/$SQL_USER/' /var/www/html/wp-config.php
-# RUN sed -i 's/username_here/$SQL_USER/' /var/www/html/wp-config.php
-# RUN sed -i 's/username_here/$SQL_USER/' /var/www/html/wp-config.php
-
-# !!! to set set connection with db by config 
 COPY conf/wp-config.php /var/www/html/wp-config-sample.php
-RUN mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
-
 
 COPY conf/start.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/start.sh
