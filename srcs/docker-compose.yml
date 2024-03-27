@@ -53,7 +53,7 @@ services:
     depends_on:                             # WordPress will start only after MariaDB (otherwise, it won't be able to configure the database).
       mariadb:
         condition: service_healthy
-        restart: true
+        # restart: true
     restart: on-failure
     ports:
       - "9000:9000"
