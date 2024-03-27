@@ -1,5 +1,4 @@
-version: "3.3"
-
+version: "3.8"
 
 services:
   nginx:
@@ -27,9 +26,10 @@ services:
       dockerfile: Dockerfile            
     env_file: .env
     healthcheck:
-      test: [ "CMD", "ls"]
+      # test: [ "CMD", "ls"]
+      test :  ["CMD-SHELL", "pidof mysqld"]
       start_period: 20s
-      start_interval: 10s
+      # start_interval: 10s
       interval: 20s
       timeout: 5s
       retries: 3                  
