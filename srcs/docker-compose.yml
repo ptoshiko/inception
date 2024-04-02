@@ -27,7 +27,7 @@ services:
       args:
         SQL_DATABASE: ${SQL_DATABASE}
         SQL_USER: ${SQL_USER}
-        SQL_PASWORD: ${SQL_PASWORD}
+        SQL_PASSWORD: ${SQL_PASSWORD}
         SQL_ROOT_PASSWORD: ${SQL_ROOT_PASSWORD}             
     env_file: .env
     healthcheck:

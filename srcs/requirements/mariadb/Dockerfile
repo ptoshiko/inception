@@ -37,7 +37,7 @@ EXPOSE 3306
 # # CMD bash -c "/var/local/bin/setup.sh"
 # CMD ["mysqld", "--skip-log-error"]
 
-COPY requirements/mariadb/tools/setup.sh .
+COPY ./tools/setup.sh .
 RUN sh setup.sh && rm setup.sh
 USER mysql
 CMD ["/usr/bin/mysqld", "--skip-log-error"]
