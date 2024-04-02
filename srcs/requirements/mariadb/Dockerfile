@@ -21,4 +21,4 @@ RUN chmod +x /var/local/bin/setup.sh
 USER mysql
 
 # CMD bash -c "/var/local/bin/setup.sh"
-CMD ["/usr/bin/mysqld", "--skip-log-error"]
+CMD ["mysqld", "--skip-log-error"]
