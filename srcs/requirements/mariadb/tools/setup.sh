@@ -34,10 +34,10 @@ DELETE FROM     mysql.user WHERE User='';
 DROP DATABASE test;
 DELETE FROM mysql.db WHERE Db='test';
 DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
-ALTER USER 'root'@'localhost' IDENTIFIED BY \`${SQL_ROOT_PASSWORD}\`;
-CREATE DATABASE \`${SQL_DATABASE}\` CHARACTER SET utf8 COLLATE utf8_general_ci;
-CREATE USER \`${SQL_USER}\`@'%'  IDENTIFIED by \`${SQL_PASSWORD}\`;
-GRANT ALL PRIVILEGES ON wordpress.* TO \`${SQL_USER}\`@'%';
+ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';
+CREATE DATABASE '${SQL_DATABASE}' CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE USER '${SQL_USER}'@'%'  IDENTIFIED by '${SQL_PASSWORD}';
+GRANT ALL PRIVILEGES ON wordpress.* TO '${SQL_USER}'@'%';
 FLUSH PRIVILEGES;
 EOF
         # run init.sql

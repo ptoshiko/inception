@@ -1,5 +1,9 @@
 FROM debian:11
 
+ARG SQL_DATABASE \
+    SQL_USER \
+   	SQL_PASSWORD
+
 RUN apt-get update && \
     apt-get install -y mariadb-server mariadb-client
 

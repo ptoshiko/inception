@@ -23,7 +23,12 @@ services:
       - inception                     
     build:
       context: requirements/mariadb    
-      dockerfile: Dockerfile            
+      dockerfile: Dockerfile
+      args:
+        SQL_DATABASE: ${SQL_DATABASE}
+        SQL_USER: ${SQL_USER}
+        SQL_PASWORD: ${SQL_PASWORD}
+        SQL_ROOT_PASSWORD: ${SQL_ROOT_PASSWORD}             
     env_file: .env
     healthcheck:
       # test: [ "CMD", "ls"]
