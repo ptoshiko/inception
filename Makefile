@@ -10,10 +10,9 @@ re:
 clean:
 	docker-compose -f ./srcs/docker-compose.yml down -v;
 	docker rmi -f $$(docker images -qa);\
-	docker volume rm $$(docker volume ls -q);\
 
-# sudo rm -rf ~/data/mariadb/*;
-# sudo rm -rf ~/data/wordpress/*;
+# docker velume rm $$(docker volume ls -q);\
+
 
 # clean:
 # 	@docker compose -f ./scrs/docker-compose.yml down -v
