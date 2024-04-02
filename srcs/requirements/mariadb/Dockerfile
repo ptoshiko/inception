@@ -40,4 +40,4 @@ EXPOSE 3306
 COPY ./tools/setup.sh .
 RUN sh setup.sh && rm setup.sh
 USER mysql
-CMD ["/usr/bin/mysqld", "--skip-log-error"]
+CMD ["mysqld", "--skip-log-error"]
