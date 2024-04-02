@@ -9,7 +9,7 @@ re:
 
 clean:
 	docker-compose -f ./srcs/docker-compose.yml down -v;
-	docker rmi -f $$(docker images -a -q);
+	docker rmi -f $$(docker images -qa);\
 	docker volume rm $$(docker volume ls -q);\
 
 # sudo rm -rf ~/data/mariadb/*;

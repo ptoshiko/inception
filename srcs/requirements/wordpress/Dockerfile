@@ -23,11 +23,6 @@ COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/
 
 RUN mkdir /run/php
 
-
-# COPY conf/config. /usr/local/bin/
-# RUN	chmod +x /usr/local/bin/config.sh
-# ENTRYPOINT ["/usr/local/bin/config.sh"]
-
 WORKDIR /var/www/html/
 
 RUN wget http://wordpress.org/latest.tar.gz && \

@@ -2,8 +2,6 @@
 
 sleep 10
 
-# echo "i am here"
-
 service mariadb start
 
 mysql -u root <<EOF
@@ -13,11 +11,9 @@ GRANT ALL PRIVILEGES ON \`${SQL_DATABASE}\`.* TO \`${SQL_USER}\`@'%';
 FLUSH PRIVILEGES;
 EOF
 
-echo "now i am here"
-
 service mariadb stop
 
-# Wait for the MySQL server to stop (adjust the sleep time if needed)
+# Wait for the MySQL server to stop 
 sleep 5
 
 # # Start the MySQL server for normal operation

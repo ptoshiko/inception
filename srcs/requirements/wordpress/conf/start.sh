@@ -3,8 +3,6 @@
 chown -R www-data:www-data /var/www/*
 chmod -R 755 /var/www/*
 
-# wp core download --allow-root
-
 sed -i "s/username_here/$SQL_USER/g" /var/www/html/wp-config-sample.php
 sed -i "s/password_here/$SQL_PASSWORD/g" /var/www/html/wp-config-sample.php
 sed -i "s/hostname_here/$SQL_HOSTNAME/g" /var/www/html/wp-config-sample.php
